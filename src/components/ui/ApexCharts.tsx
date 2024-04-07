@@ -5,11 +5,13 @@ function ApexCharts({xaxis, series}: {xaxis: string[], series: number[]}) {
     const data = {
         series: [
           {
+            name: "Close Price",
             data: series,
           },
         ],
         options: {
           chart: {
+            height: '100%',
             type: "line",
             zoom: {
               enabled: false,
@@ -28,6 +30,7 @@ function ApexCharts({xaxis, series}: {xaxis: string[], series: number[]}) {
             },
           },
           xaxis: {
+            name: 'Date',
             categories: [],
           },
         },
@@ -39,7 +42,7 @@ function ApexCharts({xaxis, series}: {xaxis: string[], series: number[]}) {
         options={data.options}
         series={data.series}
         type="line"
-        height={1000}
+        height={'100%'}
       />
     </>
   );
