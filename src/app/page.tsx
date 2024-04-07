@@ -1,7 +1,8 @@
 'use client'
 
 import Header from "@/components/Header";
-import Image from "next/image";
+import { Table, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import json from "../../jsconfi.json";
 
 export default function Home() {
   return (
@@ -24,8 +25,37 @@ export default function Home() {
               <button className="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg" onClick={()=>{window.location.pathname ="/dashboard"}}>
                 Dashboard
               </button>
-             
+              
             </div>
+            <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Symbol</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Last Price</TableHead>
+                    <TableHead>Market Time</TableHead>
+                    <TableHead>Change</TableHead>
+                    <TableHead>Change %</TableHead>
+                    <TableHead>Volume</TableHead>
+                    <TableHead>Market Cap</TableHead>
+                  </TableRow>
+                </TableHeader>
+                  {json.map((data) => (
+                    <TableFooter key={data.Symbol}>
+                      <TableRow>
+                      <TableCell>{data.Symbol}</TableCell>
+                      <TableCell>{data.Name}</TableCell>
+                      <TableCell>{data["Last Price"]}</TableCell>
+                      <TableCell>{data["Market Time"]}</TableCell>
+                      <TableCell>{data.Change}</TableCell>
+                      <TableCell>{data["% Change"]}</TableCell>
+                      <TableCell>{data.Volume}</TableCell>
+                      <TableCell>{data["Market Cap"]}</TableCell>
+                      </TableRow>
+                    </TableFooter>
+                  ))}
+
+              </Table>
           </div>
         </div>
       </section>
