@@ -1,24 +1,26 @@
 'use client'
 import Navbar from "@/components/Navbar"
+import ApexCharts from "@/components/ui/ApexCharts";
+import ApexAreaChart from "@/components/ui/ApexCharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 function Dashboard(){
-    const companies = ['INFY'];
-    const company_data: any[]=[]
+    const companies = ['INFY', 'AAPL', 'MSFT','TCS','GOOGL','AMZN','FB','WIPRO','HCLTECH','NSE: RELIANCE'];
     const [companyData, setCompanyData] = useState<any[]>([]);
-    async function data(companies:string[]) {
-        await Promise.all(companies.map(async (ticker)=>{
-            const response = await fetch(`http://127.0.0.1:5000/getlivedata/${ticker}`);
-            const data = await response.json();
-            if(data){
-            company_data.push(data);}
-        }));
-        setCompanyData(company_data)
-        
-    }
-    data(companies)
-    console.log(companyData)
+
+    const fetchData = async (company: string) => {
+        const response = await fetch(`http://127.0.0.1:5000/gethistoricaldata/${company}`);
+        const data = await response.json();
+        setCompanyData((prevData) => [...prevData, data]);
+    };
+
+    useEffect(() => {
+        companies.forEach((company) => {
+            fetchData(company);
+        });
+    }, []);
     return(
         <>
         <Navbar/>
@@ -43,14 +45,14 @@ function Dashboard(){
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {companyData.map((company)=>{
+                {companyData.filter((company, index, self) => self.findIndex(c => c.stockName === company.stockName) === index).map((company)=>{
                     return(
-                    <TableRow key={company['stockName']}>
-                        <TableCell>{company['stockName']}</TableCell>
-                        <TableCell>{company['stockName']}</TableCell>
-                        <TableCell>{company['basePrice']}</TableCell>
-                        <TableCell>{company['lastPrice']}</TableCell>
-                        <TableCell>{company['pChange']}</TableCell>
+                    <TableRow key={company.stockName}>
+                        <TableCell>{company.stockName}</TableCell>
+                        <TableCell><ApexCharts xaxis={company.date} series={company.closePrice}/></TableCell>
+                        <TableCell>{company.basePrice}</TableCell>
+                        <TableCell>{company.lastPrice}</TableCell>
+                        <TableCell>{company.pChange}</TableCell>
                     </TableRow>)
                 })}
             </TableBody>
