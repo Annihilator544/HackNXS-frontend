@@ -19,13 +19,17 @@ function Dashboard() {
     "INFY",
     "AAPL",
     "MSFT",
-    "TCS",
+    // "TCS",
     "GOOGL",
     "AMZN",
-    "FB",
-    "WIPRO",
-    "HCLTECH",
-    "NSE: RELIANCE",
+    // "FB",
+    "WIT",
+    "HDB",
+    "IBN",
+    "MMYT",
+    // "HCLTECH",
+    // "NSE: RELIANCE",
+    "NVDA"
   ];
   const [companyData, setCompanyData] = useState<any[]>([]);
 
@@ -67,10 +71,7 @@ function Dashboard() {
                 <TableRow
                   key={c.stockName}
                   onClick={() => {
-                    window.location.pathname = `/company/${c.stockName.replaceAll(
-                      /\s/g,
-                      "_"
-                    )}/info`;
+                    window.location.pathname = `/company/${c.stockName.split(" ")[0]}/info`;
                   }}
                 >
                   <TableCell>{c.stockName}</TableCell>
