@@ -1,4 +1,5 @@
 "use client";
+import Header from "@/components/Header";
 import MutualFundsReturns from "@/components/MutualFundsReturns";
 import PFChart from "@/components/PFChart";
 import { Button } from "@/components/ui/button";
@@ -54,6 +55,7 @@ function Page() {
   };
   return (
     <div>
+      <Header/>
       <div className=" flex flex-row flex-wrap justify-evenly p-20">
         <Card>
           <CardHeader>
@@ -73,7 +75,7 @@ function Page() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Minimum you should invest: {amount}</CardTitle>
+            <CardTitle>Minimum you should invest: {0.2*income}</CardTitle>
           </CardHeader>
         </Card>
       
@@ -151,7 +153,7 @@ function Page() {
         </div>
       </div>
       <MutualFundsReturns
-        amount={amount ? amount : 0.2 * income}
+        amount={amount== null || amount== 0 ?  0.2 * income:amount}
         months={mf ? mf : 6}
       />
     </div>

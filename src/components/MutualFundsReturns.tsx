@@ -19,7 +19,7 @@ function MutualFundsReturns({
 }) {
   const [returns, setReturns] = useState<any[]>([]);
   const [refresh, setRefresh] = useState(0);
-  const ids = [101065, 118666];
+  const ids = [101065, 118666,125354,119733,127042,143903];
 
   async function getReturns() {
     setReturns([]);
@@ -54,7 +54,7 @@ function MutualFundsReturns({
         Refresh Mutual Funds Returns
       </Button>
         </div>
-      <div className="flex flex-row flex-wrap w-full">
+      <div className="flex flex-row flex-wrap w-full justify-evenly items-center">
         {returns.map((r) => (
           <div key={r}>
             <Card className="bg-slate-200  m-10">
