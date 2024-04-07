@@ -1,9 +1,24 @@
 'use client'
 import Navbar from "@/components/Navbar"
-import { Card, CardHeader } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useEffect, useState } from "react";
 
-function dashboard(){
+function Dashboard(){
+    const companies = ['INFY'];
+    const company_data: any[]=[]
+    const [companyData, setCompanyData] = useState<any[]>([]);
+    async function data(companies:string[]) {
+        await Promise.all(companies.map(async (ticker)=>{
+            const response = await fetch(`http://127.0.0.1:5000/getlivedata/${ticker}`);
+            const data = await response.json();
+            if(data){
+            company_data.push(data);}
+        }));
+        setCompanyData(company_data)
+        
+    }
+    data(companies)
+    console.log(companyData)
     return(
         <>
         <Navbar/>
@@ -17,48 +32,30 @@ function dashboard(){
                         Recent Data
                     </TableHead>
                     <TableHead>
-                        Market Price
+                        Base Price
                     </TableHead>
                     <TableHead>
-                        Close Price
+                        Last Price
                     </TableHead>
                     <TableHead>
-                        Market Cap
+                        Percentage change
                     </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow>
-                <TableCell>Reliance</TableCell>
-                <TableCell>Reliance</TableCell>
-                <TableCell>2000</TableCell>
-                <TableCell>3000</TableCell>
-                <TableCell>50%</TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell>Reliance</TableCell>
-                <TableCell>Reliance</TableCell>
-                <TableCell>2000</TableCell>
-                <TableCell>3000</TableCell>
-                <TableCell>50%</TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell>Reliance</TableCell>
-                <TableCell>Reliance</TableCell>
-                <TableCell>2000</TableCell>
-                <TableCell>3000</TableCell>
-                <TableCell>50%</TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell>Reliance</TableCell>
-                <TableCell>Reliance</TableCell>
-                <TableCell>2000</TableCell>
-                <TableCell>3000</TableCell>
-                <TableCell>50%</TableCell>
-                </TableRow>
+                {companyData.map((company)=>{
+                    return(
+                    <TableRow key={company['stockName']}>
+                        <TableCell>{company['stockName']}</TableCell>
+                        <TableCell>{company['stockName']}</TableCell>
+                        <TableCell>{company['basePrice']}</TableCell>
+                        <TableCell>{company['lastPrice']}</TableCell>
+                        <TableCell>{company['pChange']}</TableCell>
+                    </TableRow>)
+                })}
             </TableBody>
         </Table>
         </>
     )
 }
-export default dashboard
+export default Dashboard
